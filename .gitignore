@@ -1,0 +1,25 @@
+# Gradle
+.gradle/
+build/
+**/build/
+local.properties
+.gradle.kts.toml
+
+# Android Studio
+.idea/
+*.iml
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Kotlin/Java
+*.class
+
+# Log files
+*.log
+
+# Generated files
+out/
+
+# Gradle wrapper extras
+gradle/wrapper/gradle-wrapper-shared.jar
