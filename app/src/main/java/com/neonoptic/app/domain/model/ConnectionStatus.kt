@@ -1,7 +1,8 @@
 package com.neonoptic.app.domain.model
 
 sealed class ConnectionStatus {
-    object Connected : ConnectionStatus()
+    object Idle : ConnectionStatus()
     object Connecting : ConnectionStatus()
-    data class Failed(val reason: String) : ConnectionStatus()
+    object Connected : ConnectionStatus()
+    data class Error(val message: String) : ConnectionStatus()
 }

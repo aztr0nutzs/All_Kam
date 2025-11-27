@@ -4,10 +4,12 @@ data class CameraSource(
     val id: String,
     val name: String,
     val type: CameraType,
+    val protocol: ProtocolType,
     val address: String,
     val username: String? = null,
     val password: String? = null,
-    val resolution: String? = null,
-    val frameRate: Int? = null,
-    val autoReconnect: Boolean = true
+    val useTcp: Boolean = true,
+    val bufferMs: Int = 750,
+    val targetResolution: String? = null,
+    val targetFps: Int? = null
 )

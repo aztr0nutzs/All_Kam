@@ -36,8 +36,8 @@ fun CameraConfigScreen(
     onFinished: () -> Unit,
     viewModel: CameraConfigViewModel = hiltViewModel()
 ) {
-    val status by viewModel.connectionStatus.collectAsStateWithLifecycle()
-    val formState by viewModel.formState.collectAsStateWithLifecycle()
+    val status = viewModel.connectionStatus.collectAsStateWithLifecycle().value
+    val formState = viewModel.formState.collectAsStateWithLifecycle().value
     val expandedState = remember { mutableStateOf(false) }
 
     LaunchedEffect(cameraId) {
@@ -49,7 +49,11 @@ fun CameraConfigScreen(
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        CyberpunkCard(modifier = Modifier.fillMaxWidth()) {
+        CyberpunkCard(
+            modifier = Modifier.fillMaxWidth(),
+            title = "Configure Camera",
+            onClick = {}
+        ) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Text(text = "Configure Camera", style = MaterialTheme.typography.titleLarge)
                 Spacer(modifier = Modifier.height(8.dp))
@@ -63,7 +67,7 @@ fun CameraConfigScreen(
                 OutlinedTextField(
                     value = formState.address,
                     onValueChange = viewModel::updateAddress,
-                    label = { Text("RTSP URL or USB ID") },
+                    label = { Text("RTSP/HTTP URL or USB ID") },
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(modifier = Modifier.height(8.dp))
@@ -105,17 +109,16 @@ fun CameraConfigScreen(
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(text = it, color = MaterialTheme.colorScheme.error)
                 }
-                status?.let {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = when (it) {
-                            ConnectionStatus.Connected -> "Connection successful"
-                            ConnectionStatus.Connecting -> "Connecting..."
-                            is ConnectionStatus.Failed -> "Connection failed: ${it.reason}"
-                        },
-                        color = MaterialTheme.colorScheme.secondary
-                    )
-                }
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = when (status) {
+                        ConnectionStatus.Connected -> "Connection successful"
+                        ConnectionStatus.Connecting -> "Connecting..."
+                        ConnectionStatus.Idle -> "Idle"
+                        is ConnectionStatus.Error -> "Connection failed: ${status.message}"
+                    },
+                    color = MaterialTheme.colorScheme.secondary
+                )
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
