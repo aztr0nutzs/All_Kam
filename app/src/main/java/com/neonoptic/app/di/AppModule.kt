@@ -1,8 +1,6 @@
 package com.neonoptic.app.di
 
 import android.content.Context
-import com.neonoptic.app.data.repository.CameraRepositoryImpl
-import com.neonoptic.app.domain.repository.CameraRepository
 import com.neonoptic.app.network.OnvifClient
 import com.neonoptic.app.usb.UsbCameraManager
 import dagger.Module
@@ -24,8 +22,4 @@ object AppModule {
     @Provides
     @Singleton
     fun provideOnvifClient(): OnvifClient = OnvifClient()
-
-    @Provides
-    @Singleton
-    fun provideCameraRepository(impl: CameraRepositoryImpl): CameraRepository = impl
 }
